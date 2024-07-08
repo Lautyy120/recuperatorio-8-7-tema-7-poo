@@ -1,0 +1,258 @@
+//Desarrolle un programa que llene una matriz 10 * 6. Luego, en otra matriz del mismo tamaño, guarde los valores almacenados
+//en la primera matriz elevando al cubo los almacenados en columnas pares y elevando al cuadrado los almacenados en
+//posiciones impares. Ademas debe tener colores una buena interfaz con el usuario y comentado , procedimientos, calculos, variables.
+//Se pide
+// Menú de opciones Crear Matriz, Dibujar Matriz, Salir
+// Mostrar ambas matrices (incluir en el menú)
+
+//Se solicita al usuario ingresar 12 números los cuales corresponden a una matriz de 4x3. Se pide calcular la suma de:
+//a. Diagonal principal. c. La primera y última fila.
+//b. Diagonal secundaria. d. La primera y última columna.
+//Se pide: imprimir los 4 totales y la matriz digitada. (incluir en el menú)
+// Menú de opciones Crear Matriz, Dibujar Matriz, Salir
+
+//Queremos almacenar en una matriz las notas de informática de los alumnos de secundaria de una escuela. Suponiendo que
+//hay 4 divisiones distintas, 15 alumnos por división, se pide:
+// Ingresar las notas que ha sacado cada alumno de cada división.
+//Imprimir cuál es la nota promedio de cada división.
+//Zelaya Lautaro Tema 7 lo hice en DEVC++
+// Imprimir la mayor nota en general.
+// Imprimir todas las notas.
+//Imprimir cuántos alumnos aprobaron y cuántos reprobaron de cada división.
+// Menú de opciones Crear Matriz, Dibujar Matriz, Salir
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+
+// Funciones para cambiar el color de texto
+void setColor(int ForgC) {
+    WORD wColor;
+    // este manejador es necesario para cambiar el color
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    //  buffer para cambiar el color
+    if (GetConsoleScreenBufferInfo(hStdOut, &csbi)) {
+        //  los colores de fondo
+        wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+        SetConsoleTextAttribute(hStdOut, wColor);
+    }
+}
+
+void resetColor() {
+    setColor(7); // Color blanco por defecto
+}
+
+// Función para mostrar el menú
+void mostrarMenu() {
+    setColor(14); // Amarillo
+    printf("Menú de opciones:\n");
+    setColor(11); // Cian
+    printf("1. Ejercicio 1: Crear y Dibujar Matriz 10x6\n");
+    printf("2. Ejercicio 2: Calcular suma de una Matriz 4x3\n");
+    printf("3. Ejercicio 3: Notas de Alumnos\n");
+    printf("0. Salir\n");
+    resetColor();
+}
+
+// Ejercicio 1
+void ejercicio1() {
+    int matriz[10][6], matrizResultado[10][6];
+    int i, j, valor;
+
+    // Ingresar valores en la matriz
+    setColor(14); // Amarillo
+    printf("Ingrese los valores para llenar la matriz 10x6 (Ingrese 0 para salir):\n");
+    resetColor();
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 6; j++) {
+            printf("Ingrese el valor para la posición [%d][%d]: ", i, j);
+            scanf("%d", &valor);
+            if (valor == 0) {
+                return;
+            }
+            matriz[i][j] = valor;
+            if (j % 2 == 0) {
+                matrizResultado[i][j] = matriz[i][j] * matriz[i][j] * matriz[i][j];
+            } else {
+                matrizResultado[i][j] = matriz[i][j] * matriz[i][j];
+            }
+        }
+    }
+
+    // Dibujar las matrices
+    setColor(10); // Verde
+    printf("Matriz Original:\n");
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 6; j++) {
+            printf("%4d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+
+    setColor(12); // Rojo
+    printf("Matriz Resultante:\n");
+    for (i = 0; i < 10; i++) {
+        for (j = 0; j < 6; j++) {
+            printf("%4d ", matrizResultado[i][j]);
+        }
+        printf("\n");
+    }
+    resetColor();
+}
+
+// Ejercicio 2
+void ejercicio2() {
+    int matriz[4][3], i, j, valor;
+    int sumaDiagonalPrincipal = 0, sumaDiagonalSecundaria = 0;
+    int sumaPrimeraFila = 0, sumaUltimaFila = 0;
+    int sumaPrimeraColumna = 0, sumaUltimaColumna = 0;
+
+    // Ingresar valores en la matriz
+    setColor(14); // Amarillo
+    printf("Ingrese 12 números para llenar la matriz 4x3 (Ingrese 0 para salir):\n");
+    resetColor();
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3; j++) {
+            printf("Ingrese el valor para la posición [%d][%d]: ", i, j);
+            scanf("%d", &valor);
+            if (valor == 0) {
+                return;
+            }
+            matriz[i][j] = valor;
+        }
+    }
+
+    // Calcular sumas
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3; j++) {
+            if (i == j) {
+                sumaDiagonalPrincipal += matriz[i][j];
+            }
+            if (i + j == 4 - 1) {  // corregido para matriz 4x3
+                sumaDiagonalSecundaria += matriz[i][j];
+            }
+            if (i == 0) {
+                sumaPrimeraFila += matriz[i][j];
+            }
+            if (i == 4 - 1) {  // corregido para matriz 4x3
+                sumaUltimaFila += matriz[i][j];
+            }
+            if (j == 0) {
+                sumaPrimeraColumna += matriz[i][j];
+            }
+            if (j == 3 - 1) {  // corregido para matriz 4x3
+                sumaUltimaColumna += matriz[i][j];
+            }
+        }
+    }
+
+    // Imprimir resultados
+    setColor(11); // Cian
+    printf("Matriz ingresada:\n");
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3; j++) {
+            printf("%4d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+
+    setColor(10); // Verde
+    printf("Suma de la diagonal principal: %d\n", sumaDiagonalPrincipal);
+    printf("Suma de la diagonal secundaria: %d\n", sumaDiagonalSecundaria);
+    printf("Suma de la primera fila: %d\n", sumaPrimeraFila);
+    printf("Suma de la última fila: %d\n", sumaUltimaFila);
+    printf("Suma de la primera columna: %d\n", sumaPrimeraColumna);
+    printf("Suma de la última columna: %d\n", sumaUltimaColumna);
+    resetColor();
+}
+
+// Ejercicio 3
+void ejercicio3() {
+    int notas[4][15], i, j, valor;
+    int sumaNotas[4] = {0, 0, 0, 0};
+    int aprobados[4] = {0, 0, 0, 0}, reprobados[4] = {0, 0, 0, 0};
+    int mayorNota = 0;
+
+    // Ingresar notas
+    for (i = 0; i < 4; i++) {
+        setColor(14); // Amarillo
+        printf("Ingrese las notas de la división %d (Ingrese 0 para salir):\n", i + 1);
+        resetColor();
+        for (j = 0; j < 15; j++) {
+            printf("Ingrese la nota del alumno %d: ", j + 1);
+            scanf("%d", &valor);
+            if (valor == 0) {
+                return;
+            }
+            notas[i][j] = valor;
+            sumaNotas[i] += notas[i][j];
+            if (notas[i][j] > mayorNota) {
+                mayorNota = notas[i][j];
+            }
+            if (notas[i][j] >= 60) {
+                aprobados[i]++;
+            } else {
+                reprobados[i]++;
+            }
+        }
+    }
+
+    // Imprimir resultados
+    setColor(11); // Cian
+    for (i = 0; i < 4; i++) {
+        printf("Notas de la división %d:\n", i + 1);
+        for (j = 0; j < 15; j++) {
+            printf("%4d ", notas[i][j]);
+        }
+        printf("\n");
+    }
+
+    setColor(10); // Verde
+    for (i = 0; i < 4; i++) {
+        printf("Promedio de la división %d: %.2f\n", i + 1, sumaNotas[i] / 15.0);
+        printf("Aprobados en la división %d: %d\n", i + 1, aprobados[i]);
+        printf("Reprobados en la división %d: %d\n", i + 1, reprobados[i]);
+    }
+    printf("La mayor nota en general es: %d\n", mayorNota);
+    resetColor();
+}
+
+// Función principal
+int main() {
+    int opcion;
+
+    do {
+        mostrarMenu();
+        setColor(14); // Amarillo
+        printf("Seleccione una opción: ");
+        resetColor();
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                ejercicio1();
+                break;
+            case 2:
+                ejercicio2();
+                break;
+            case 3:
+                ejercicio3();
+                break;
+            case 0:
+                setColor(14); // Amarillo
+                printf("Saliendo...\n");
+                resetColor();
+                break;
+            default:
+                setColor(12); // Rojo
+                printf("Opción no válida. Intente de nuevo.\n");
+                resetColor();
+        }
+    } while (opcion != 0);
+
+    return 0;
+}
+
+
+
